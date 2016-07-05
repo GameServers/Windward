@@ -15,7 +15,7 @@ if [ -f ${SERVER_LOCAL_FILE} ]; then
 	if ! [ "${SERVER_LOCAL_MD5}" = "${SERVER_TEMP_MD5}" ]; then
 	
 		echo "Newer version available - Upgrading"
-		mv ${SERVER_TEMP_FILE} ${SERVER_LOCAL_FILE}
+		mv -f ${SERVER_TEMP_FILE} ${SERVER_LOCAL_FILE}
 		unzip ${SERVER_LOCAL_FILE} -d /data/windward/
 
 	fi
