@@ -32,8 +32,10 @@ if [ "${WINDWARD_SERVER_PUBLIC}" = "1" ]; then
 fi
 
 if [ "${WINDWARD_SERVER_ADMIN}" ]; then
-	mkdir -p /home/windward/Windward/ServerConfig
-	echo "${WINDWARD_SERVER_ADMIN}" > /home/windward/Windward/ServerConfig/admin.txt
+	mkdir -p /data/windward/Windward/ServerConfig
+	if [ ! -f /data/windward/Windward/ServerConfig/admin.txt ]; then
+		echo "${WINDWARD_SERVER_ADMIN}" > /data/windward/Windward/ServerConfig/admin.txt
+	fi
 fi
 
 cd /home/windward
