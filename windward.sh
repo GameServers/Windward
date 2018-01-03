@@ -33,7 +33,9 @@ fi
 
 if [ "${WINDWARD_SERVER_ADMIN}" ]; then
 	mkdir -p /data/windward/Windward/ServerConfig
-	echo "${WINDWARD_SERVER_ADMIN}" > /data/windward/Windward/ServerConfig/admin.txt
+	if [ ! -f /data/windward/Windward/ServerConfig/admin.txt ]; then
+		echo "${WINDWARD_SERVER_ADMIN}" > /data/windward/Windward/ServerConfig/admin.txt
+	fi
 fi
 
 cd /data/windward
