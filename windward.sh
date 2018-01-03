@@ -6,7 +6,7 @@ SERVER_LOCAL_FILE=/data/windward/WWServer.zip
 
 echo "Downloading latest dedicated server"
 
-wget -qO ${SERVER_TEMP_FILE} ${SERVER_REMOTE_FILE}
+wget --user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:21.0) Gecko/20100101 Firefox/21.0" -qO ${SERVER_TEMP_FILE} ${SERVER_REMOTE_FILE}
 
 if [ -f ${SERVER_LOCAL_FILE} ]; then
 	echo "Checking local dedicated server is the latest version..."
