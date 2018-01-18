@@ -12,7 +12,7 @@ ENV WINDWARD_SERVER_NAME="Windward Server" \
     WINDWARD_SERVER_PORT=5127 \
     WINDWARD_SERVER_PUBLIC=0
 
-RUN apk --update --no-cache add unzip
+RUN apk --update --no-cache add curl unzip
 
 RUN mkdir -p /windward	&&	\
     chmod ugo=rwx /windward && \
