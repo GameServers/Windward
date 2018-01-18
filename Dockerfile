@@ -16,7 +16,7 @@ RUN apk --update --no-cache add unzip
 
 RUN mkdir -p /windward	&&	\
     chmod ugo=rwx /windward && \
-	addgroup -g $PGID =S $GROUP && \
+	addgroup -g $PGID -S $GROUP && \
 	adduser -u $PUID -G $USER -s /bin/sh -SDH $GROUP && \
     chown -R $USER:$GROUP /windward
 	
