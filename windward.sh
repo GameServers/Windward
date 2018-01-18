@@ -2,7 +2,7 @@
 
 SERVER_REMOTE_FILE=http://www.tasharen.com/windward/WWServer.zip
 SERVER_TEMP_FILE=/tmp/WWServer.zip
-SERVER_LOCAL_FILE=/windward/WWServer.zip
+SERVER_LOCAL_FILE=/home/windward/WWServer.zip
 
 echo "Downloading latest dedicated server"
 
@@ -16,7 +16,7 @@ if [ -f ${SERVER_LOCAL_FILE} ]; then
 	
 		echo "Newer version available - Upgrading"
 		mv -f ${SERVER_TEMP_FILE} ${SERVER_LOCAL_FILE}
-		unzip ${SERVER_LOCAL_FILE} -d /windward/
+		unzip ${SERVER_LOCAL_FILE} -d /home/windward/
 
 	fi
 
@@ -24,7 +24,7 @@ else
 
 	echo "Newer version available - Upgrading"
 	mv ${SERVER_TEMP_FILE} ${SERVER_LOCAL_FILE}
-	unzip ${SERVER_LOCAL_FILE} -d /windward/
+	unzip ${SERVER_LOCAL_FILE} -d /home/windward/
 fi
 
 if [ "${WINDWARD_SERVER_PUBLIC}" = "1" ]; then
@@ -32,11 +32,11 @@ if [ "${WINDWARD_SERVER_PUBLIC}" = "1" ]; then
 fi
 
 if [ "${WINDWARD_SERVER_ADMIN}" ]; then
-	mkdir -p /windward/Windward/ServerConfig
-	echo "${WINDWARD_SERVER_ADMIN}" > /windward/Windward/ServerConfig/admin.txt
+	mkdir -p /home/windward/Windward/ServerConfig
+	echo "${WINDWARD_SERVER_ADMIN}" > /home/windward/Windward/ServerConfig/admin.txt
 fi
 
-cd /windward
+cd /home/windward
 
 mono WWServer.exe -service -name "${WINDWARD_SERVER_NAME}" -world "${WINDWARD_SERVER_WORLD}" ${WINDWARD_SERVER_IS_PUBLIC} -tcp ${WINDWARD_SERVER_PORT} -http
 

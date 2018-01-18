@@ -24,11 +24,12 @@ RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates tar xz
     apk del .build-dependencies && \
     rm /tmp/*
 
-RUN mkdir -p /windward	&&	\
-    chmod ugo=rwx /windward && \
+RUN mkdir -p /windward /home/windward && \
+    chmod ugo=rwx /windward /home/windward && \
 	addgroup -g $PGID -S $GROUP && \
 	adduser -u $PUID -G $USER -s /bin/sh -SDH $GROUP && \
-    chown -R $USER:$GROUP /windward
+    chown -R $USER:$GROUP /windward /home/windward && \
+	ln -s /windward /home/windward/Windward
 	
 VOLUME /windward
 
