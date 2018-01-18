@@ -2,23 +2,30 @@ FROM frolvlad/alpine-mono
 
 MAINTAINER Yuki Hyou <snowleopard@amused.com.au>
 
-ENV WINDWARD_SERVER_NAME "Windward Server"
-ENV WINDWARD_SERVER_WORLD "World"
-ENV WINDWARD_SERVER_PORT 5127
-ENV WINDWARD_SERVER_PUBLIC 0
+ARG USER=windward
+ARG GROUP=windward
+ARG PUID=1000
+ARG PGID=1000
 
-RUN apk --no-cache add unzip
+ENV WINDWARD_SERVER_NAME "Windward Server" \
+    WINDWARD_SERVER_WORLD "World" \
+    WINDWARD_SERVER_PORT 5127 \
+    WINDWARD_SERVER_PUBLIC 0
 
-RUN mkdir -p /data/windward	&&	\
-    useradd -u 1000 -s /bin/bash -d /data/windward windward		&&	\
-    chown windward:windward /data/windward
+RUN apk --update --no-cache add unzip
 
-EXPOSE 5127
+RUN mkdir -p /windward	&&	\
+    chmod ugo=rwx /windward && \
+	addgroup -g $PGID =S $GROUP && \
+	adduser -u $PUID -G $USER -s /bin/sh -SDH $GROUP && \
+    chown -R $USER:$GROUP windward:windward /windward
+	
+VOLUME /windward
 
-ADD windward.sh /usr/local/bin/windward
+EXPOSE $WINDWARD_SERVER_PORT
 
-USER windward
-VOLUME /data/windward
-WORKDIR /data/windward
+COPY ./windward.sh /
 
-CMD ["windward"]
+USER $USER
+
+CMD ["/windward.sh"]
