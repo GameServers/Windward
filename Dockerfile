@@ -1,19 +1,13 @@
-FROM ubuntu:14.04
+FROM frolvlad/alpine-mono
 
-MAINTAINER Jason Rivers <docker@jasonrivers.co.uk>
+MAINTAINER Yuki Hyou <snowleopard@amused.com.au>
 
-ENV DEBIAN_FRONTEND noninteractive
 ENV WINDWARD_SERVER_NAME "Windward Server"
 ENV WINDWARD_SERVER_WORLD "World"
 ENV WINDWARD_SERVER_PORT 5127
 ENV WINDWARD_SERVER_PUBLIC 1
 
-RUN apt-get update		&&	\
-    apt-get install -y			\
-	mono-runtime			\
-	libmono2.0-cil			\
-	wget				\
-	unzip
+RUN apk --no-cache add unzip
 
 RUN mkdir -p /data/windward	&&	\
     useradd -u 1000 -s /bin/bash -d /data/windward windward		&&	\
