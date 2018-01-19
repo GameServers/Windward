@@ -6,7 +6,7 @@ SERVER_LOCAL_FILE=/home/windward/WWServer.zip
 
 echo "Downloading latest dedicated server"
 
-curl -o ${SERVER_TEMP_FILE} ${SERVER_REMOTE_FILE}
+curl -s -o ${SERVER_TEMP_FILE} ${SERVER_REMOTE_FILE}
 
 if [ -f ${SERVER_LOCAL_FILE} ]; then
 	echo "Checking local dedicated server is the latest version..."
