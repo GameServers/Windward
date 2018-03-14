@@ -1,7 +1,5 @@
 # Windward Game Server
 
-*Based on the original docker image [gameservers/windward](https://hub.docker.com/r/gameservers/windward/) but modified to use Alpine with glibc/mono*
-
 See more about Windward at: [http://www.tasharen.com/windward/](http://www.tasharen.com/windward/)
 
 

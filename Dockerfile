@@ -2,7 +2,7 @@ FROM frolvlad/alpine-glibc:glibc-2.25
 # Note that we should be using frolvlad/alpine-mono (see note below) but can't because
 # glibc-2.26 requires a newer kernel than is available on a lot of hosts (old OpenVZ)
 
-MAINTAINER Yuki Hyou <snowleopard@amused.com.au>
+MAINTAINER Jason Rivers <docker@jasonrivers.co.uk>
 
 ARG USER=windward
 ARG GROUP=windward
