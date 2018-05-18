@@ -1,30 +1,42 @@
-FROM ubuntu:14.04
+FROM frolvlad/alpine-glibc:glibc-2.25
+# Note that we should be using frolvlad/alpine-mono (see note below) but can't because
+# glibc-2.26 requires a newer kernel than is available on a lot of hosts (old OpenVZ)
 
 MAINTAINER Jason Rivers <docker@jasonrivers.co.uk>
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV WINDWARD_SERVER_NAME "Windward Server"
-ENV WINDWARD_SERVER_WORLD "World"
-ENV WINDWARD_SERVER_PORT 5127
-ENV WINDWARD_SERVER_PUBLIC 1
+ARG USER=windward
+ARG GROUP=windward
+ARG PUID=1000
+ARG PGID=1000
 
-RUN apt-get update		&&	\
-    apt-get install -y			\
-	mono-runtime			\
-	libmono2.0-cil			\
-	wget				\
-	unzip
+ENV WINDWARD_SERVER_NAME="Windward Server" \
+    WINDWARD_SERVER_WORLD="World" \
+    WINDWARD_SERVER_PORT=5127 \
+    WINDWARD_SERVER_PUBLIC=0
 
-RUN mkdir -p /data/windward	&&	\
-    useradd -u 1000 -s /bin/bash -d /data/windward windward		&&	\
-    chown windward:windward /data/windward
+RUN apk --update --no-cache add curl unzip
 
-EXPOSE 5127
+# Note - This line taken from frolvlad/alpine-mono since we have to build it ourselves here
+RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates tar xz && \
+    wget "https://www.archlinux.org/packages/extra/x86_64/mono/download/" -O "/tmp/mono.pkg.tar.xz" && \
+    tar -xJf "/tmp/mono.pkg.tar.xz" && \
+    cert-sync /etc/ssl/certs/ca-certificates.crt && \
+    apk del .build-dependencies && \
+    rm /tmp/*
 
-ADD windward.sh /usr/local/bin/windward
+RUN mkdir -p /windward && \
+    chmod ugo=rwx /windward && \
+	addgroup -g $PGID -S $GROUP && \
+	adduser -u $PUID -G $GROUP -s /bin/sh -SD $USER && \
+    chown -R $USER:$GROUP /windward /home/windward && \
+	ln -s /windward /home/windward/Windward
+	
+VOLUME /windward
 
-USER windward
-VOLUME /data/windward
-WORKDIR /data/windward
+EXPOSE $WINDWARD_SERVER_PORT
 
-CMD ["windward"]
+COPY ./windward.sh /
+
+USER $USER
+
+CMD ["/windward.sh"]
